@@ -1,5 +1,6 @@
 <template>
   <div class="profile">
+    <HeaderTop :title="title"></HeaderTop>
     <section class="profile-number">
       <router-link to="/login" class="profile-link">
         <div class="profile_image">
@@ -93,19 +94,24 @@
 <script>
 import { useStore } from "vuex";
 import { onMounted } from "vue";
+import HeaderTop from "@/components/HeaderTop.vue";
 export default {
-  name: "Profile",
-  setup() {
-    const store = useStore();
-    let title = "我的";
-    onMounted(() => {
-      store.commit("set_header", {
-        title,
-        logShow: false,
-        searchShow: false,
-      });
-    });
-  },
+    name: "Profile",
+    setup() {
+        const store = useStore();
+        let title = "我的";
+        onMounted(() => {
+            store.commit("set_header", {
+
+                logShow: false,
+                searchShow: false,
+            });
+        });
+        return {
+          title
+        };
+    },
+    components: { HeaderTop }
 };
 </script>
 

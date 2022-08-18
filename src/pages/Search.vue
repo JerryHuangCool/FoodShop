@@ -1,5 +1,6 @@
 <template>
   <div class="search">
+    <HeaderTop :title="title"></HeaderTop>
     <form class="search_form" action="#">
       <input
         type="search"
@@ -15,19 +16,23 @@
 <script>
 import { useStore } from "vuex";
 import { onMounted } from "vue";
+import HeaderTop from "@/components/HeaderTop.vue";
 export default {
-  name: "Search",
-  setup() {
-    const store = useStore();
-    let title = "搜索";
-    onMounted(() => {
-      store.commit("set_header", {
-        title,
-        logShow: false,
-        searchShow: false,
-      });
-    });
-  },
+    name: "Search",
+    setup() {
+        const store = useStore();
+        let title = "搜索";
+        onMounted(() => {
+            store.commit("set_header", {
+                logShow: false,
+                searchShow: false,
+            });
+        });
+        return {
+          title
+        };
+    },
+    components: { HeaderTop }
 };
 </script>
 

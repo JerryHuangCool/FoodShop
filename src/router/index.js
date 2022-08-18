@@ -11,9 +11,12 @@ import Login from '../pages/Login'; */
 const routes = [
     {
         path: '/',
+        redirect: '/msite',
+    },
+    {
+        path: '/msite',
         component: () => import('../pages/MSite'),
         meta: {
-            showTop:true,
             showFooter:true
         }
     },
@@ -22,7 +25,6 @@ const routes = [
         path:'/search',
         component: () => import('../pages/Search'),
         meta: {
-            showTop:true,
             showFooter:true
         }
     },
@@ -31,7 +33,6 @@ const routes = [
         path:'/order',
         component: () => import('../pages/Order'),
         meta: {
-            showTop:true,
             showFooter:true
         }
     },
@@ -40,7 +41,6 @@ const routes = [
         path:'/profile',
         component: () => import('../pages/Profile'),
         meta: {
-            showTop:true,
             showFooter:true
         }
     },

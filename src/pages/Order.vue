@@ -1,5 +1,6 @@
 <template>
   <div class="order">
+    <HeaderTop :title="title"></HeaderTop>
     <section class="order_no_login">
       <img src="../assets/images/order/person.png" />
       <h3>登录后查看外卖订单</h3>
@@ -11,19 +12,23 @@
 <script>
 import { useStore } from "vuex";
 import { onMounted } from "vue";
+import HeaderTop from "@/components/HeaderTop.vue";
 export default {
-  name: "Order",
-  setup() {
-    const store = useStore();
-    let title = "订单列表";
-    onMounted(() => {
-      store.commit("set_header", {
-        title,
-        logShow: false,
-        searchShow: false,
-      });
-    });
-  },
+    name: "Order",
+    setup() {
+        const store = useStore();
+        let title = "订单列表";
+        onMounted(() => {
+            store.commit("set_header", {
+                logShow: false,
+                searchShow: false,
+            });
+        });
+        return {
+          title
+        };
+    },
+    components: { HeaderTop }
 };
 </script>
 

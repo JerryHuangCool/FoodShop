@@ -1,5 +1,6 @@
 <template>
   <div class="msite">
+    <HeaderTop :title="address.name"></HeaderTop>
     <!--首页导航-->
     <nav class="msite_nav">
       <swiper
@@ -123,12 +124,14 @@
 
 <script>
 import { useStore } from "vuex";
+import { useState } from "../hooks/useState";
 import { onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue"; //swiper的vue.js方式，将其作为组件引入
 import { Pagination } from "swiper"; //swiper8在vue中默认引入没有任何附加模块，需要单独引入
 import "swiper/css";
 import "swiper/css/pagination";
 import ShopList from "@/components/ShopList.vue";
+import HeaderTop from "@/components/HeaderTop.vue";
 
 export default {
   name: "MSite",
@@ -136,30 +139,26 @@ export default {
     Swiper,
     SwiperSlide,
     ShopList,
+    HeaderTop,
   },
   setup() {
     const store = useStore();
-    let title = "成华区二仙桥成华大道";
+    store.dispatch("getAddress");
+    const storeState = useState(["address", "shops", "categorys"]);
     onMounted(() => {
-      /* Swiper.use(Pagination);
-      const mySwiper = new Swiper(".swiper", {
-        loop: true,
-        pagination: {
-          el: '.swiper-pagination',
-        },
-      }); */
-      store.commit("set_header", {
-        title,
-        logShow: true,
-        searchShow: true,
-      });
+      console.log("页面加载");
     });
+    store.commit("set_header", {
+      logShow: true,
+      searchShow: true,
+    });
+    
     return {
       modules: [Pagination],
+      ...storeState,
     };
   },
 };
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" src="../assets/stylus/msite.styl" scoped>
-</style>
+<style lang="stylus" rel="stylesheet/stylus" src="../assets/stylus/msite.styl" scoped></style>

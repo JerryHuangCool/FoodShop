@@ -1,5 +1,4 @@
 <template id="app">
-  <HeaderTop v-if="route.meta.showTop"></HeaderTop>
   <router-view></router-view>
   <FootGuide v-if="route.meta.showFooter"></FootGuide>
   
@@ -7,21 +6,21 @@
 
 <script>
 import { useRoute } from "vue-router";//vue3取消了this，可以用setup的参数context获取$的一些对象($route等)
+import { useStore } from "vuex";
 //但是更推荐引入函数在setup里使用
 import FootGuide from './components/FootGuide.vue';
-import HeaderTop from './components/HeaderTop.vue';
 
 
 export default {
   name: 'App',
   components: {
     FootGuide,
-    HeaderTop
+    
 },
 
 setup() {
   const route = useRoute();
-
+  
   return {
     route,
   };

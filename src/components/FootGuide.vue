@@ -1,6 +1,6 @@
 <template>
   <div class="footer_guide">
-    <router-link to="/" class="guide_item" active-class="on">
+    <router-link to="/msite" class="guide_item " active-class="on">
       <span class="item_icon">
         <i class="iconfont icon-waimai"></i>
       </span>
