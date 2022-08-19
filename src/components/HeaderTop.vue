@@ -21,7 +21,7 @@ import { useState } from "../hooks/useState";
 export default {
   components: {},
   props:['title'],
-  setup(props) {
+  setup() {
     const storeState = useState(["h_log_show", "h_search_show"]);
     return {
       ...storeState,

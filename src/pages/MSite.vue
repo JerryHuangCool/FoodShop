@@ -3,114 +3,28 @@
     <HeaderTop :title="address.name"></HeaderTop>
     <!--首页导航-->
     <nav class="msite_nav">
-      <swiper
-        class="swiper"
-        :modules="modules"
-        :pagination="{ clickable: true }"
-      >
-        <swiper-slide class="swiper-slide">
-          <a href="javascript:" class="link_to_food">
+      <swiper class="swiper" :modules="modules" :pagination="{clickable: true}" v-if="categorys.length ">
+        <swiper-slide
+          class="swiper-slide"
+          v-for="(categorys, index) in categorysArr"
+          :key="index"
+        >
+          <a
+            href="javascript:"
+            class="link_to_food"
+            v-for="(category, index) in categorys"
+            :key="index"
+          >
             <div class="food_container">
-              <img src="../assets/images/nav/1.jpg" />
+              <img :src="base_url + category.image_url" />
             </div>
-            <span>甜品饮品</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/2.jpg" />
-            </div>
-            <span>商超便利</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/3.jpg" />
-            </div>
-            <span>美食</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/4.jpg" />
-            </div>
-            <span>简餐</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/5.jpg" />
-            </div>
-            <span>新店特惠</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/6.jpg" />
-            </div>
-            <span>准时达</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/7.jpg" />
-            </div>
-            <span>预订早餐</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/8.jpg" />
-            </div>
-            <span>土豪推荐</span>
-          </a>
-        </swiper-slide>
-        <swiper-slide class="swiper-slide">
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/9.jpg" />
-            </div>
-            <span>甜品饮品</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/10.jpg" />
-            </div>
-            <span>商超便利</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/11.jpg" />
-            </div>
-            <span>美食</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/12.jpg" />
-            </div>
-            <span>简餐</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/13.jpg" />
-            </div>
-            <span>新店特惠</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/14.jpg" />
-            </div>
-            <span>准时达</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/1.jpg" />
-            </div>
-            <span>预订早餐</span>
-          </a>
-          <a href="javascript:" class="link_to_food">
-            <div class="food_container">
-              <img src="../assets/images/nav/2.jpg" />
-            </div>
-            <span>土豪推荐</span>
+            <span>{{ category.title }}</span>
           </a>
         </swiper-slide>
         <!-- Add Pagination -->
         <!-- <div class="swiper-pagination"></div> -->
       </swiper>
+      <img src="./msite_back.svg" alt="back" v-else>
     </nav>
     <div class="msite_shop_list">
       <div class="shop_header">
@@ -125,8 +39,9 @@
 <script>
 import { useStore } from "vuex";
 import { useState } from "../hooks/useState";
-import { onMounted } from "vue";
-import { Swiper, SwiperSlide } from "swiper/vue"; //swiper的vue.js方式，将其作为组件引入
+import { useAction } from "../hooks/useAction";
+import { onMounted, computed, watch, reactive } from "vue";
+import { Swiper, SwiperSlide} from "swiper/vue"; //swiper的vue.js方式，将其作为组件引入
 import { Pagination } from "swiper"; //swiper8在vue中默认引入没有任何附加模块，需要单独引入
 import "swiper/css";
 import "swiper/css/pagination";
@@ -143,19 +58,44 @@ export default {
   },
   setup() {
     const store = useStore();
-    store.dispatch("getAddress");
+
     const storeState = useState(["address", "shops", "categorys"]);
+    const storeAction = useAction(["getAddress", "getFoodTypes","getShopList"]);
+    const getAddress = storeAction.getAddress;
+    const getFoodTypes = storeAction.getFoodTypes;
+    const getShopList = storeAction.getShopList;
+    const base_url = "https://fuss10.elemecdn.com";
+    getAddress();
+    getFoodTypes();
+    getShopList();
+    const categorysArr = computed({
+      get() {
+        const categorys = store.state.categorys;
+        const Arr = []; 
+        let minArr = [];
+        for (let i = 0; i < categorys.length; i++) {
+          minArr.push(categorys[i]);
+          if (minArr.length === 8) {
+            Arr.push(minArr);
+            minArr = [];
+          }
+        }
+        return Arr;
+      },
+    });
     onMounted(() => {
-      console.log("页面加载");
+      store.commit("set_header", {
+        logShow: true,
+        searchShow: true,
+      });
     });
-    store.commit("set_header", {
-      logShow: true,
-      searchShow: true,
-    });
-    
+
     return {
       modules: [Pagination],
       ...storeState,
+      ...storeAction,
+      categorysArr,
+      base_url,
     };
   },
 };

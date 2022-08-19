@@ -9,7 +9,6 @@ export function useAction(mapper) {
 
     Object.keys(storeActionFns).forEach((fnKey)=>{
         const fn = storeActionFns[fnKey].bind({$store:store});
-        console.log(fn);
         storeAction[fnKey] = fn;
     });
     

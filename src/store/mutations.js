@@ -23,8 +23,14 @@ export default {
     },
     
     [RECEIVE_ADDRESS](state,{address}){
-        console.log('data改变');
         state.address = address
-    }
+    },
 
+    [RECEIVE_CATEGORYS](state,{categorys}){
+        state.categorys = categorys;
+    },
+
+    [RECEIVE_SHOPS](state,{shopList}){
+        state.shops = shopList;
+    },
 };

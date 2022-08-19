@@ -14,8 +14,8 @@ import {
 } from './mutation-types'
 import {
     reqAddress,
-    reqCategorys,
-    reqShops,
+    reqFoodTypes,
+    reqShopList,
     reqUserInfo,
     reqLogout,
     reqShopRatings,
@@ -33,5 +33,24 @@ export default {
             const address = res.data
             commit(RECEIVE_ADDRESS, { address });
         }
+    },
+
+    async getFoodTypes({commit}) {
+        const res = await reqFoodTypes();
+        if(res.code === 0) {
+            const categorys = res.data;
+            commit(RECEIVE_CATEGORYS,{categorys});
+        }
+    },
+
+    async getShopList({commit,state}) {
+        const latitude = state.latitude;
+        const longitude = state.longitude;
+        const res = await reqShopList(latitude,longitude);
+        if(res.code === 0) {
+            const shopList = res.data;
+            commit(RECEIVE_SHOPS,{shopList});
+        }
+
     }
 };

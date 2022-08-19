@@ -102,7 +102,6 @@ export default {
         let title = "我的";
         onMounted(() => {
             store.commit("set_header", {
-
                 logShow: false,
                 searchShow: false,
             });
