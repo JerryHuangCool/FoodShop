@@ -1,7 +1,8 @@
 import {createRouter,createWebHistory} from "vue-router";
 
 //引入路由组件
-/* import MSite from '../pages/MSite';
+/* 
+import MSite from '../pages/MSite';
 import Order from '../pages/Order';
 import Profile from '../pages/Profile';
 import Search from '../pages/Search';

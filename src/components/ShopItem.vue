@@ -13,13 +13,7 @@
         </section>
         <section class="shop_rating_order">
           <section class="shop_rating_order_left">
-            <div class="star star-24">
-              <span class="star-item on"></span>
-              <span class="star-item on"></span>
-              <span class="star-item on"></span>
-              <span class="star-item half"></span>
-              <span class="star-item off"></span>
-            </div>
+            <Star :score="shopState.rating" :size="24"></Star>
             <div class="rating_section">{{shopState.rating}}</div>
             <div class="order_section">月售{{shopState.recent_order_num}}单</div>
           </section>
@@ -42,15 +36,17 @@
 </template>
 
 <script>
+import Star from './Star.vue';
 export default {
-  name: "ShopItem",
-  props: ["shopState"],
-  setup() {
-    const base_url = 'http://cangdu.org:8001/img/';
-    return {
-      base_url,
-    };
-  },
+    name: "ShopItem",
+    props: ["shopState"],
+    setup() {
+        const base_url = "http://cangdu.org:8001/img/";
+        return {
+            base_url,
+        };
+    },
+    components: { Star }
 };
 </script>
 

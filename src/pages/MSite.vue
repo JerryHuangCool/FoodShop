@@ -24,7 +24,7 @@
         <!-- Add Pagination -->
         <!-- <div class="swiper-pagination"></div> -->
       </swiper>
-      <img src="./msite_back.svg" alt="back" v-else>
+      <img src="./img/msite_back.svg" alt="back" v-else>
     </nav>
     <div class="msite_shop_list">
       <div class="shop_header">
