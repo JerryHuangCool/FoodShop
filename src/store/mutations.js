@@ -33,4 +33,10 @@ export default {
     [RECEIVE_SHOPS](state,{shopList}){
         state.shops = shopList;
     },
+    [RECEIVE_USER_INFO](state,{userinfo}){
+        state.userInfo = userinfo;
+    },
+    [RESET_USER_INFO](state){
+        state.userInfo = {};
+    }
 };

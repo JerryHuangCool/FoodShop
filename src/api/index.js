@@ -26,22 +26,22 @@ export const reqCaptcha = () => {
     return ajax(BASE_URL+'/captcha');
 }
 ////6、用户名密码登陆
-export const reqLoginPwd = () => {
-    return ajax(BASE_URL+'/login_pwd','POST');
+export const reqLoginPwd = (name,pwd,captcha) => {
+    return ajax(BASE_URL+'/login_pwd',{name,pwd,captcha},'POST');
 }
 //7、发送短信验证码
 export const reqSendCode = (phone) => {
     return ajax(BASE_URL+'/sendcode',{phone});
 }
 //8、手机号验证码登陆
-export const reqLoginPhone = () => {
-    return ajax(BASE_URL+'/login_sms','POST');
+export const reqLoginPhone = (phone,code) => {
+    return ajax(BASE_URL+'/login_sms',{phone,code},'POST');
 }
 //9、根据会话获取用户信息
 export const reqUserInfo = () => {
     return ajax(BASE_URL+'/userinfo');
 } 
 //10、用户登出 
-export const reqLogOut = () => {
+export const reqLogout = () => {
     return ajax(BASE_URL+'/logout');
 } 

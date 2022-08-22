@@ -99,8 +99,10 @@
                 />
                 <img
                   class="get_verification"
-                  src="../assets/images/captcha.svg"
+                  src="http://localhost:4000/captcha"
                   alt="captcha"
+                  @click="getCaptcha"
+                  ref="captchaTag"
                 />
               </section>
             </section>
@@ -109,22 +111,32 @@
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
-      <router-link to="/profile" class="go_back">
+      <span @click="goBack" class="go_back">
         <i class="iconfont icon-jiantou2"></i>
-      </router-link>
+      </span>
     </div>
-    <AlertTip :alertText="alertText" v-if="showAlert" @closeTip="closeTip"></AlertTip>
+    <AlertTip
+      :alertText="alertText"
+      v-if="showAlert"
+      @closeTip="closeTip"
+    ></AlertTip>
   </div>
 </template>
 
 <script>
 import { ref, computed } from "vue";
 import AlertTip from "@/components/AlertTip.vue";
+import { reqLoginPwd, reqSendCode, reqLoginPhone } from "../api/index";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "Login",
   setup() {
+    const router = useRouter();
+    const store = useStore();
     let loginWay = ref(true); //true代表短信登录，false代表密码登录
     let phone = ref("");
+    const captchaTag = ref(null);
     let rightPhone = computed({
       get() {
         let phoneReg =
@@ -133,11 +145,12 @@ export default {
       },
     });
     let computeTime = ref(0); //计时时间
+    let timer;//定时器id
     //获取短信验证码
-    function sendCaptcha() {
+    async function sendCaptcha() {
       //启动倒计时
       computeTime.value = 30;
-      const timer = setInterval(() => {
+       timer = setInterval(() => {
         computeTime.value--;
         //到时间停止计时
         if (computeTime.value === 0) {
@@ -145,7 +158,15 @@ export default {
         }
       }, 1000);
       //发送ajax请求
-      console.log(1);
+      const res = await reqSendCode(phone.value);
+      if (res.code === 1) {
+        //显示提示，停止倒计时
+        showText(res.msg);
+        if (computeTime.value) {
+          computeTime.value = 0;
+          clearInterval(timer);
+        }
+      }
     }
     let showPassWord = ref(false);
     let passWord = ref("");
@@ -159,34 +180,69 @@ export default {
       alertText.value = text;
     }
     //提交登录表单
-    function login() {
+    async function login() {
+      let res; //接收结果的变量
       //前台表单验证
       if (loginWay.value === true) {
         //短信登录
         if (!rightPhone.value) {
           //手机不正确
-          showText('手机不正确');
-          
-        } else if (!/^\d{6}$/.test(code)) {
+          showText("手机不正确");
+          return;
+        } else if (!/^\d{6}$/.test(code.value)) {
           //验证码必须是6位数字
-          showText('验证码必须是6位数字');
+          showText("验证码必须是6位数字");
+          return;
         }
+        //短信登录
+        res = await reqLoginPhone(phone.value, code.value);
       } else {
         //密码登录
         if (!name.value) {
           //用户名必须指定
-          showText('用户名必须指定');
+          showText("用户名必须指定");
+          getCaptcha();
+          return;
         } else if (!passWord.value) {
           //密码必须指定
-         showText('密码必须指定');
+          showText("密码必须指定");
+          getCaptcha();
+          return;
         } else if (!captcha.value) {
           //验证码必须指定
-          showText('验证码必须指定');
+          showText("验证码必须指定");
+          getCaptcha();
+          return;
         }
+        //密码登录
+        res = await reqLoginPwd(name.value, passWord.value, captcha.value);
       }
+      clearInterval(timer);
+      if (res.code === 0) {
+        //成功
+        const userinfo = res.data;
+        //设置登录状态
+        store.dispatch('recordUser',userinfo);
+        //跳转页面
+        router.replace('/profile');
+      } else {
+        //失败提示弹窗
+        showText(res.msg);
+        getCaptcha();
+      }
+      
     }
     function closeTip() {
+      //关闭警告框
       showAlert.value = false;
+    }
+    function getCaptcha() {
+      //给链接加时间戳来刷新请求，非ajax请求没有跨域问题
+      //vue3的ref属性需要先定义一个ref的空变量，将该变量作为ref属性绑定给标签，调用时需要.value
+      captchaTag.value.src = "http://localhost:4000/captcha?time=" + Date.now();
+    }
+    function goBack() {
+      router.back();
     }
     return {
       loginWay,
@@ -203,7 +259,9 @@ export default {
       alertText,
       showAlert,
       closeTip,
-
+      getCaptcha,
+      captchaTag,
+      goBack
     };
   },
   components: { AlertTip },

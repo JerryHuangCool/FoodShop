@@ -12,5 +12,12 @@ module.exports = defineConfig({
         }
       }
     }
-  }
+  },
+  configureWebpack: {
+    plugins: [
+      require('unplugin-element-plus/webpack')({
+        // options
+      }),
+    ],
+  },
 })

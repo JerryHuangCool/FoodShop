@@ -13,4 +13,9 @@ export default{
     address: {},//地址
     categorys: [],//分类
     shops: [], //商店
+
+    /* 
+    用户数据
+    */
+   userInfo: {}//用户信息
 };

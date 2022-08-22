@@ -1,17 +1,18 @@
 <template>
   <!--首页头部-->
   <div class="header">
-    <span class="header_search" v-show="h_search_show">
+    <router-link class="header_search" v-show="h_search_show" to="/search">
       <i class="iconfont icon-sousuo"></i>
-    </span>
+    </router-link>
     <span class="header_title">
       <span class="header_title_text ellipsis">
         {{ title }}
       </span>
     </span>
-    <span class="header_login" v-show="h_log_show">
-      <span class="header_login_text">登录|注册</span>
-    </span>
+    <router-link class="header_login" v-show="h_log_show" :to="userInfo._id ? 'userinfo': '/login'">
+      <span class="header_login_text" v-if="!userInfo._id">登录|注册</span>
+      <i class="iconfont icon-person" v-else></i>
+    </router-link>
   </div>
 </template>
 
@@ -22,7 +23,7 @@ export default {
   components: {},
   props:['title'],
   setup() {
-    const storeState = useState(["h_log_show", "h_search_show"]);
+    const storeState = useState(["h_log_show", "h_search_show","userInfo"]);
     return {
       ...storeState,
     };

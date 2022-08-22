@@ -2,17 +2,28 @@
   <div class="profile">
     <HeaderTop :title="title"></HeaderTop>
     <section class="profile-number">
-      <router-link to="/login" class="profile-link">
+      <router-link
+        :to="userInfo._id ? 'userinfo' : '/login'"
+        class="profile-link"
+      >
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top">
+            {{
+              Object.keys(userInfo).length !== 0
+                ? userInfo.name || userInfo.phone
+                : "登录/注册"
+            }}
+          </p>
           <p>
             <span class="user-icon">
               <i class="iconfont icon-shouji icon-mobile"></i>
             </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">{{
+              userInfo.phone || "暂无绑定手机号"
+            }}</span>
           </p>
         </div>
         <span class="arrow">
@@ -88,29 +99,51 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px">
+      <el-popconfirm title="确定要退出登录吗？" confirm-button-text="确定" cancel-button-text="取消" icon-color= "green" @confirm="logout">
+        <template #reference>
+          <el-button
+            type="danger"
+            style="width: 100%"
+            v-show="userInfo._id"
+          >
+            退出登录
+          </el-button>
+        </template>
+      </el-popconfirm>
+    </section>
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { onMounted } from "vue";
+import { useState } from "../hooks/useState";
 import HeaderTop from "@/components/HeaderTop.vue";
 export default {
-    name: "Profile",
-    setup() {
-        const store = useStore();
-        let title = "我的";
-        onMounted(() => {
-            store.commit("set_header", {
-                logShow: false,
-                searchShow: false,
-            });
-        });
-        return {
-          title
-        };
-    },
-    components: { HeaderTop }
+  name: "Profile",
+  setup() {
+    const store = useStore();
+    const Storestate = useState(["userInfo"]);
+    let title = "我的";
+    onMounted(() => {
+      store.commit("set_header", {
+        logShow: false,
+        searchShow: false,
+      });
+    });
+    function logout() {
+      store.dispatch('logout');
+    }
+    return {
+      title,
+      ...Storestate,
+      logout
+    };
+  },
+  components: {
+    HeaderTop,
+  },
 };
 </script>
 
