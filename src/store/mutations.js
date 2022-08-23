@@ -21,22 +21,31 @@ export default {
         state.h_log_show = data.logShow;
         state.h_search_show = data.searchShow;
     },
-    
-    [RECEIVE_ADDRESS](state,{address}){
+
+    [RECEIVE_ADDRESS](state, { address }) {
         state.address = address
     },
 
-    [RECEIVE_CATEGORYS](state,{categorys}){
+    [RECEIVE_CATEGORYS](state, { categorys }) {
         state.categorys = categorys;
     },
 
-    [RECEIVE_SHOPS](state,{shopList}){
+    [RECEIVE_SHOPS](state, { shopList }) {
         state.shops = shopList;
     },
-    [RECEIVE_USER_INFO](state,{userinfo}){
+    [RECEIVE_USER_INFO](state, { userinfo }) {
         state.userInfo = userinfo;
     },
-    [RESET_USER_INFO](state){
+    [RESET_USER_INFO](state) {
         state.userInfo = {};
-    }
+    },
+    [RECEIVE_INFO](state, { info }) {
+        state.info = info;
+    },
+    [RECEIVE_RATINGS](state, { ratings }) {
+        state.ratings = ratings;
+    },
+    [RECEIVE_GOODS](state, { goods }) {
+        state.goods = goods;
+    },
 };

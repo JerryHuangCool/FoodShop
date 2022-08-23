@@ -6,7 +6,7 @@ export default{
     h_search_show: true,
 
     /* 
-       从后台拿到的数据
+       店铺数据
     */
     latitude: '30.6748018738967',
     longitude: '104.13991928100586',  
@@ -17,5 +17,9 @@ export default{
     /* 
     用户数据
     */
-   userInfo: {}//用户信息
+   userInfo: {},//用户信息
+   /* 商品数据 */
+   goods: [], // 商品列表
+   ratings: [], // 商家评价列表
+   info: {}, // 商家信息
 };

@@ -71,5 +71,34 @@ export default {
         if(res.code === 0){
             commit(RESET_USER_INFO);
         }
+    },
+    // 异步获取商家信息
+  async getShopInfo({commit}) {
+    const res = await reqShopInfo()
+    if (res.code === 0) {
+      const info = res.data
+      commit(RECEIVE_INFO, {info})
     }
+  },
+
+  // 异步获取商家评价列表
+  async getShopRatings({commit}) {
+    const res = await reqShopRatings()
+    if (res.code === 0) {
+      const ratings = res.data
+      commit(RECEIVE_RATINGS, {ratings})
+      // 数据更新了, 通知一下组件
+      
+    }
+  },
+
+  // 异步获取商家商品列表
+  async getShopGoods({commit}) {
+    const res = await reqShopGoods()
+    if (res.code === 0) {
+      const goods = res.data
+      commit(RECEIVE_GOODS, {goods})
+      // 数据更新了, 通知一下组件
+    }
+  },
 };

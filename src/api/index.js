@@ -45,3 +45,16 @@ export const reqUserInfo = () => {
 export const reqLogout = () => {
     return ajax(BASE_URL+'/logout');
 } 
+
+
+/**
+ * 下列请求由mock拦截并返回 不需要代理
+ */
+// 获取商家信息
+export const reqShopInfo = () => ajax('/info');
+
+// 获取商家评价数组
+export const reqShopRatings = () => ajax('/ratings');
+
+// 获取商家商品数组
+export const reqShopGoods = () => ajax('/goods');

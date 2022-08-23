@@ -52,6 +52,25 @@ const routes = [
             showTop:false,
             showFooter:false
         }
+    },
+    {
+        path: '/shop',
+        redirect: '/shop/goods',
+        component: () => import('../pages/ShopView/Shop'),
+        children: [
+            {
+                path: 'goods',
+                component: () => import('../pages/ShopView/ShopGoods'),
+            },
+            {
+                path: 'info',
+                component: () => import('../pages/ShopView/ShopInfo'),
+            },
+            {
+                path: 'rating',
+                component: () => import('../pages/ShopView/ShopRating'),
+            }
+        ]
     }
 
 ];

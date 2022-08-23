@@ -6,6 +6,7 @@
         v-for="(state, index) in shops"
         :key="index"
         :shopState="state"
+        @click="router.push('/shop')"
       ></ShopItem>
     </ul>
     <ul v-else>
@@ -19,12 +20,15 @@
 <script>
 import ShopItem from "./ShopItem.vue";
 import { useState } from "../hooks/useState";
+import { useRouter } from "vue-router";
 export default {
   name: "ShopList",
   setup() {
     const storeState = useState(["shops"]);
+    const router = useRouter();
     return {
       ...storeState,
+      router
     };
   },
   components: { ShopItem },
