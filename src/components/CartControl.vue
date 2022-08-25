@@ -4,11 +4,11 @@
       <div
         class="iconfont icon-remove_circle_outline"
         v-show="food.count"
-        @click="updateFoodCount(false)"
-      ></div>
+        @click.stop="updateFoodCount(false)"
+      ></div><!-- 阻止事件冒泡，外层点击事件触发 -->
     </transition>
     <div class="cart-count" v-show="food.count">{{ food.count }}</div>
-    <div class="iconfont icon-add_circle" @click="updateFoodCount(true)"></div>
+    <div class="iconfont icon-add_circle" @click.stop="updateFoodCount(true)"></div>
   </div>
 </template>
 
