@@ -48,22 +48,29 @@ export default {
     [RECEIVE_GOODS](state, { goods }) {
         state.goods = goods;
     },
-    [INCREMENT_FOOD_COUNT](state,{food}) {
-        if(!food.count){
+    [INCREMENT_FOOD_COUNT](state, { food }) {
+        if (!food.count) {
             food.count = 1;//对于对象，vue2实现新增属性响应式需要set方法，而vue3可直接添加属性
             state.cartFoods.push(food);//添加的是food的引用
-        }else{
+        } else {
             food.count++;
         }
     },
-    [DECREMENT_FOOD_COUNT](state,{food}) {
-        
-        if(food.count){//避免出现负数
+    [DECREMENT_FOOD_COUNT](state, { food }) {
+
+        if (food.count) {//避免出现负数
             food.count--;
-            if(food.count === 0){
-                state.cartFoods.splice(state.cartFoods.indexOf(food),1);
+            if (food.count === 0) {
+                state.cartFoods.splice(state.cartFoods.indexOf(food), 1);
             }
         }
-       
+
+    },
+    [CLEAR_CART](state) {
+        state.cartFoods.forEach((food) => {
+            food.count = 0;
+        });
+        state.cartFoods = [];
     }
+
 };

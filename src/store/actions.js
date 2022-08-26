@@ -82,13 +82,13 @@ export default {
   },
 
   // 异步获取商家评价列表
-  async getShopRatings({ commit }) {
+  async getShopRatings({ commit }, callback) {
     const res = await reqShopRatings()
     if (res.code === 0) {
       const ratings = res.data
       commit(RECEIVE_RATINGS, { ratings })
       // 数据更新了, 通知一下组件
-
+      callback && callback();
     }
   },
 
@@ -109,5 +109,8 @@ export default {
       commit(DECREMENT_FOOD_COUNT, { food });
     }
 
+  },
+  clearCart({ commit }) {
+    commit(CLEAR_CART);
   }
 };

@@ -9,7 +9,7 @@
         {{ title }}
       </span>
     </span>
-    <router-link class="header_login" v-show="h_log_show" :to="userInfo._id ? 'userinfo': '/login'">
+    <router-link class="header_login" v-show="h_log_show" :to="userInfo._id ? '/userinfo': '/login'">
       <span class="header_login_text" v-if="!userInfo._id">登录|注册</span>
       <i class="iconfont icon-person" v-else></i>
     </router-link>

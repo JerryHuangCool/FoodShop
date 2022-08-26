@@ -37,6 +37,10 @@ const routes = [
             showFooter:true
         }
     },
+    {
+        path: '/userinfo',
+        redirect: '/profile'
+    },
 
     {
         path:'/profile',

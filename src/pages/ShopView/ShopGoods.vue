@@ -98,7 +98,7 @@ export default {
       rightScroll.bs = new BScroll(foodsWrapper.value, {
         scrollY: true,
         click: true,
-        probeType: 2,
+        probeType: 2,//滚动监听类型
         disableMouse: false, //启用鼠标拖动
         disableTouch: false, //启用手指触摸
       });
