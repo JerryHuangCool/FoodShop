@@ -125,6 +125,7 @@ export default {
     store.dispatch("getShopGoods", () => {
       nextTick(() => {
         //列表显示之后执行
+        
         _initScroll(); //加_表示非事件方法
         _initTops();
       });

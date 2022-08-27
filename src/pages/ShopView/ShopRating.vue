@@ -95,7 +95,7 @@ export default {
     const ratingScroll = reactive({});
     const onlyShowText = ref(true);//只显示有文本内容的
     const selectType = ref(2);//选择的评价类型，0满意，1不满意，2全部
-    const filterRatings = computed({
+   const filterRatings = computed({
         get() {
             return ratings.value.filter(rating => {
                 return ( selectType.value === 2 || selectType.value === rating.rateType) && (!onlyShowText.value || rating.text.length > 0);
@@ -123,7 +123,7 @@ export default {
       changeType,
       selectType,
       ...storeGetter,
-      filterRatings
+      filterRatings,
     };
   },
 };
