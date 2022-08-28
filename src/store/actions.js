@@ -21,7 +21,7 @@ import {
   reqShopRatings,
   reqShopGoods,
   reqShopInfo,
-  reqSearchShop
+  reqShopByKey
 } from '../api'
 
 
@@ -112,5 +112,14 @@ export default {
   },
   clearCart({ commit }) {
     commit(CLEAR_CART);
+  },
+  async searchShop({ commit, state }, keyWord) {
+    const geohash = state.latitude + ',' + state.longitude;
+    const res = await reqShopByKey(keyWord, geohash);
+    if (res.code === 0) {
+      const searchShops = res.data
+      commit(RECEIVE_SEARCH_SHOPS, { searchShops });
+    }
   }
+
 };

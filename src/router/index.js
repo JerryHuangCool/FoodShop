@@ -65,14 +65,23 @@ const routes = [
             {
                 path: 'goods',
                 component: () => import('../pages/ShopView/ShopGoods'),
+                meta:{
+                    keepAlive: true //需要缓存的路由开启
+                }
             },
             {
                 path: 'info',
                 component: () => import('../pages/ShopView/ShopInfo'),
+                meta:{
+                    keepAlive: true
+                }
             },
             {
                 path: 'rating',
                 component: () => import('../pages/ShopView/ShopRating'),
+                meta:{
+                    keepAlive: true
+                }
             }
         ]
     }

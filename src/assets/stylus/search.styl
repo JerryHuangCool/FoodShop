@@ -1,6 +1,7 @@
 @import "./mixins.styl";
-.search { // 搜索
+.search {
   width: 100%;
+  height: 100%;
 
   .search_form {
     clearFix();
@@ -33,5 +34,52 @@
         background-color: #02a774;
       }
     }
+  }
+
+  .list {
+    .list_container {
+      background-color: #fff;
+
+      .list_li {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        border-bottom: 1px solid $bc;
+
+        .item_left {
+          margin-right: 10px;
+
+          .restaurant_img {
+            width: 50px;
+            height: 50px;
+            display: block;
+          }
+        }
+
+        .item_right {
+          font-size: 12px;
+          flex: 1;
+
+          .item_right_text {
+            p {
+              line-height: 12px;
+              margin-bottom: 6px;
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .search_none {
+    margin: 0 auto;
+    color: #333;
+    background-color: #fff;
+    text-align: center;
+    margin-top: 0.125rem;
   }
 }

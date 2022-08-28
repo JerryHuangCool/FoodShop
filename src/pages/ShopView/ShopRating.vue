@@ -68,7 +68,7 @@
                   >{{ rec }}</span
                 >
               </div>
-              <div class="time">{{ rating.rateTime }}</div>
+              <div class="time">{{ formatDate(rating.rateTime) }}</div>
             </div>
           </li>
         </ul>
@@ -84,6 +84,7 @@ import Star from "@/components/Star.vue";
 import { useStore } from "vuex";
 import { ref, reactive,nextTick,computed } from "vue";
 import BScroll from "@better-scroll/core";
+import day from 'dayjs';
 export default {
   components: { Star },
   setup() {
@@ -95,13 +96,21 @@ export default {
     const ratingScroll = reactive({});
     const onlyShowText = ref(true);//只显示有文本内容的
     const selectType = ref(2);//选择的评价类型，0满意，1不满意，2全部
-   const filterRatings = computed({
+   const filterRatings = computed({//用计算属性取代过滤器，返回一个function
         get() {
             return ratings.value.filter(rating => {
                 return ( selectType.value === 2 || selectType.value === rating.rateType) && (!onlyShowText.value || rating.text.length > 0);
             });
         }
 
+    });
+    const formatDate = computed({
+      get() {
+        return function (value,format) {
+          return day(value).format(format = 'YYYY-MM-DD HH:mm:ss');
+        } 
+        
+      }
     });
     store.dispatch("getShopRatings", () => {
         nextTick(()=>{ratingScroll.bs = new BScroll(ratingWrapper.value, {
@@ -124,6 +133,7 @@ export default {
       selectType,
       ...storeGetter,
       filterRatings,
+      formatDate
     };
   },
 };

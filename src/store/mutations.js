@@ -71,6 +71,9 @@ export default {
             food.count = 0;
         });
         state.cartFoods = [];
+    },
+    [RECEIVE_SEARCH_SHOPS](state,{searchShops}) {
+        state.searchShops = searchShops;
     }
 
 };
